@@ -16,7 +16,8 @@ import org.junit.runner.RunWith;
 import static org.junit.Assert.*;
 
 /**
- * Instrumentation test, which will execute on an Android device.
+ * Instrumentation test, which will execute on an Android device. Used to check whether the
+ * testing environment is correctly configured.
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
