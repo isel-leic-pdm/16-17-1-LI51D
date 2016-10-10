@@ -9,7 +9,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import isel.pdm.demos.mymoviedb.models.MovieDto
+import isel.pdm.demos.mymoviedb.models.MovieDetail
 
 import org.junit.Before
 import org.junit.Test
@@ -88,7 +88,7 @@ class CheckAPIResponsiveness {
     @Test
     fun test_successfulResponseParsing() {
         requestQueue.add(
-                GetRequest(
+                GetMovieDetailRequest(
                     MOVIE_URL,
                     { movie -> executeAndPublishResult { assertNotNull(movie) } },
                     { error -> executeAndPublishResult { fail() } }
