@@ -13,21 +13,18 @@ import isel.pdm.demos.mymoviedb.models.MovieDto
 
 import java.io.IOException
 
-class GetRequest(url: String, success: Response.Listener<MovieDto>, error: Response.ErrorListener) : JsonRequest<MovieDto>(Request.Method.GET, url, "", success, error) {
+class GetRequest(url: String, success: (MovieDto) -> Unit , error: (VolleyError) -> Unit) : JsonRequest<MovieDto>(Request.Method.GET, url, "", success, error) {
 
-    override fun parseNetworkResponse(response: NetworkResponse): Response<MovieDto>? {
+    override fun parseNetworkResponse(response: NetworkResponse): Response<MovieDto> {
+
         val mapper = ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
 
-        var result: Response<MovieDto>
         try {
             val movieDto = mapper.readValue(String(response.data), MovieDto::class.java)
-            Log.v("Tests", movieDto.toString())
-            result = Response.success(movieDto, null)
+            return Response.success(movieDto, null)
         } catch (e: IOException) {
             e.printStackTrace()
-            result = Response.error(VolleyError())
+            return Response.error(VolleyError())
         }
-
-        return result
     }
 }
