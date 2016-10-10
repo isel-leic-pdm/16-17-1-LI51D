@@ -87,13 +87,13 @@ class CheckAPIResponsiveness {
 
     @Test
     fun test_successfulResponseParsing() {
-        val request = GetRequest(
-                MOVIE_URL,
-                { movie -> executeAndPublishResult { assertNotNull(movie) } },
-                { error -> executeAndPublishResult { fail() } }
+        requestQueue.add(
+                GetRequest(
+                    MOVIE_URL,
+                    { movie -> executeAndPublishResult { assertNotNull(movie) } },
+                    { error -> executeAndPublishResult { fail() } }
+                )
         )
-
-        requestQueue.add(request)
         waitForCompletion()
     }
 }
