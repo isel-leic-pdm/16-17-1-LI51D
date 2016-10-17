@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Application wide constants -->
+    <string name="api_base_url" translatable="false">https://api.themoviedb.org/3</string>
+    <string name="api_config_path" translatable="false">/configuration</string>
+    <string name="api_key_name" translatable="false">api_key</string>
+    <string name="api_key_value" translatable="false">c45808d49ff7af92014ae030f009cd17</string>
+</resources>

@@ -1,15 +1,15 @@
 package isel.pdm.demos.mymoviedb
 
+import android.content.res.Resources
 import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.core.deps.guava.base.Strings
 import android.support.test.runner.AndroidJUnit4
 
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import isel.pdm.demos.mymoviedb.models.MovieDetail
+import isel.pdm.demos.mymoviedb.comms.GetConfigInfoRequest
 
 import org.junit.Before
 import org.junit.Test
@@ -31,10 +31,18 @@ import kotlin.test.fail
 class CheckAPIResponsiveness {
 
     private lateinit var requestQueue: RequestQueue
+    private lateinit var resources: Resources
 
     // Synchronization between test harness thread and callbacks thread
     private lateinit var latch: CountDownLatch
     private var error: AssertionError? = null
+
+    private fun buildConfigUrl(): String {
+        val baseUrl = resources.getString(R.string.api_base_url)
+        val configPath = resources.getString(R.string.api_config_path)
+        val api_key = "${resources.getString(R.string.api_key_name)}=${resources.getString(R.string.api_key_value)}"
+        return "$baseUrl$configPath?$api_key"
+    }
 
     private fun waitForCompletion() {
         try {
@@ -65,6 +73,8 @@ class CheckAPIResponsiveness {
         // Preparing Volley's request queue
         requestQueue = Volley.newRequestQueue(InstrumentationRegistry.getTargetContext())
         requestQueue.cache.clear()
+        resources = InstrumentationRegistry.getTargetContext().resources
+
         // Preparing test harness thread synchronization artifacts
         latch = CountDownLatch(1)
         error = null
@@ -76,7 +86,7 @@ class CheckAPIResponsiveness {
         requestQueue.add(
             StringRequest(
                 Request.Method.GET,
-                MOVIE_URL,
+                buildConfigUrl(),
                 { response -> executeAndPublishResult { assertFalse(Strings.isNullOrEmpty(response)) } },
                 { error -> executeAndPublishResult { assertNotNull(error.networkResponse) } }
             )
@@ -88,9 +98,9 @@ class CheckAPIResponsiveness {
     @Test
     fun test_successfulResponseParsing() {
         requestQueue.add(
-                GetMovieDetailRequest(
-                    MOVIE_URL,
-                    { movie -> executeAndPublishResult { assertNotNull(movie) } },
+                GetConfigInfoRequest(
+                    buildConfigUrl(),
+                    { info -> executeAndPublishResult { assertNotNull(info) } },
                     { error -> executeAndPublishResult { fail() } }
                 )
         )

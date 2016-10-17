@@ -1,4 +1,4 @@
-package isel.pdm.demos.mymoviedb
+package isel.pdm.demos.mymoviedb.comms
 
 import com.android.volley.NetworkResponse
 import com.android.volley.Request
@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import isel.pdm.demos.mymoviedb.models.MovieDetail
 
 import com.fasterxml.jackson.module.kotlin.*
+import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
 
 import java.io.IOException
 
@@ -17,19 +18,19 @@ import java.io.IOException
  * Class whose instances represent customized HTTP requests for getting the details of a
  * given movie.
  */
-class GetMovieDetailRequest(url: String, success: (MovieDetail) -> Unit, error: (VolleyError) -> Unit) : JsonRequest<MovieDetail>(Request.Method.GET, url, "", success, error) {
+class GetConfigInfoRequest(url: String, success: (ConfigurationInfo) -> Unit, error: (VolleyError) -> Unit) : JsonRequest<ConfigurationInfo>(Method.GET, url, "", success, error) {
 
     companion object {
         val mapper: ObjectMapper = jacksonObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     }
 
-    override fun parseNetworkResponse(response: NetworkResponse): Response<MovieDetail> {
+    override fun parseNetworkResponse(response: NetworkResponse): Response<ConfigurationInfo> {
 
         try {
             // TODO: Refine to handle error responses
-            val movieDto = mapper.readValue<MovieDetail>(response.data)
-            return Response.success(movieDto, null)
+            val configInfo = mapper.readValue<ConfigurationInfo>(response.data)
+            return Response.success(configInfo, null)
         } catch (e: IOException) {
             e.printStackTrace()
             return Response.error(VolleyError())
