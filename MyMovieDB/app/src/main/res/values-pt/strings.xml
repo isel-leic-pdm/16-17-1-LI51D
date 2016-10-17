@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Credits screen -->
+    <string name="credits_author_label">Por</string>
+    <string name="credits_author_photo_description">Fotografia do autor</string>
+    <string name="credits_author_linked_in_description">Logo LinkedIn</string>
+    <string name="credits_data_source_description">Fonte de dados TMDB</string>
+</resources>

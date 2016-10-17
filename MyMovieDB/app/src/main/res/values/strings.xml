@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">My Movie DB</string>
+    <!-- Application wide -->
+    <string name="app_name" translatable="false">My Movie DB</string>
+
+    <!-- Credits screen -->
+    <string name="credits_author_label">By</string>
+    <string name="credits_author_name" translatable="false">Paulo Pereira</string>
+    <string name="credits_author_linked_in" translatable="false">https://pt.linkedin.com/in/palbp</string>
+    <string name="credits_author_photo_description">Photo of the author</string>
+    <string name="credits_author_linked_in_description">LinkedIn logo</string>
+    <string name="credits_data_source_url" translatable="false">https://www.themoviedb.org</string>
+    <string name="credits_data_source_description">Powered by TMDB</string>
 </resources>

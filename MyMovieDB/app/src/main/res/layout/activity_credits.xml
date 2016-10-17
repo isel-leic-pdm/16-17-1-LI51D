@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="isel.pdm.demos.mymoviedb.CreditsActivity">
+
+    <TextView
+        android:text="@string/credits_author_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/by"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="27dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/tmdb_logo"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="39dp"
+        android:id="@+id/tmdbLogo"
+        android:contentDescription="@string/credits_data_source_description" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/linked_in"
+        android:id="@+id/linkedInLogo"
+        android:contentDescription="@string/credits_author_linked_in_description"
+        android:layout_marginTop="53dp"
+        android:layout_below="@+id/by"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/authorName"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:text="@string/credits_author_name"
+        android:layout_marginStart="12dp"
+        android:layout_above="@+id/linkedInLogo"
+        android:layout_toEndOf="@+id/by" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/me"
+        android:id="@+id/authorPhoto"
+        android:contentDescription="@string/credits_author_photo_description"
+        android:layout_marginStart="32dp"
+        android:layout_above="@+id/linkedInUrl"
+        android:layout_toEndOf="@+id/authorName"
+        android:layout_marginBottom="39dp" />
+
+    <TextView
+        android:text="@string/credits_author_linked_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/linkedInUrl"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:layout_alignBottom="@+id/linkedInLogo"
+        android:layout_toEndOf="@+id/linkedInLogo"
+        android:layout_marginStart="13dp" />
+
+</RelativeLayout>
