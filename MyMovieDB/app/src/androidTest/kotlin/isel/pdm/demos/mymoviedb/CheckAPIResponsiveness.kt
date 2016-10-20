@@ -9,7 +9,8 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
-import isel.pdm.demos.mymoviedb.comms.GetConfigInfoRequest
+import isel.pdm.demos.mymoviedb.comms.GetRequest
+import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
 
 import org.junit.Before
 import org.junit.Test
@@ -98,10 +99,11 @@ class CheckAPIResponsiveness {
     @Test
     fun test_successfulResponseParsing() {
         requestQueue.add(
-                GetConfigInfoRequest(
+                GetRequest<ConfigurationInfo>(
                     buildConfigUrl(),
                     { info -> executeAndPublishResult { assertNotNull(info) } },
-                    { error -> executeAndPublishResult { fail() } }
+                    { error -> executeAndPublishResult { fail() } },
+                    ConfigurationInfo::class.java
                 )
         )
         waitForCompletion()
