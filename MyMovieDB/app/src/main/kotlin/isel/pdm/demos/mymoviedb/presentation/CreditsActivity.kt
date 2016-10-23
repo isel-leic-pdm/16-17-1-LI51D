@@ -36,6 +36,10 @@ class CreditsActivity : BaseActivity() {
         startActivity(Intent(Intent.ACTION_VIEW, url))
     }
 
+    /**
+     * Callback method used to initiate the activity instance.
+     * @param savedInstanceState The previously saved instance state, or null if none exists
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

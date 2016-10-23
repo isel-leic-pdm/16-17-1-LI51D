@@ -15,6 +15,9 @@ import isel.pdm.demos.mymoviedb.R
 import isel.pdm.demos.mymoviedb.comms.GetRequest
 import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
 
+/**
+ * Implementation of the Activity used to display the splash screen, which is presented at startup.
+ */
 class SplashActivity : BaseActivity() {
 
     /**
@@ -22,27 +25,33 @@ class SplashActivity : BaseActivity() {
      */
     override val layoutResId: Int = R.layout.activity_splash
 
-    private lateinit var requestQueue: RequestQueue
-
+    /**
+     * Helper method used to construct the URL of the API's configuration endpoint.
+     * @return The string bearing the URL
+     */
     private fun buildConfigUrl(): String {
         val baseUrl = resources.getString(R.string.api_base_url)
         val configPath = resources.getString(R.string.api_config_path)
+        // Implementation note: All requests contain the api key. We will implement a general solution
         val api_key = "${resources.getString(R.string.api_key_name)}=${resources.getString(R.string.api_key_value)}"
         return "$baseUrl$configPath?$api_key"
     }
 
+    /**
+     * Callback method used to initiate the activity instance
+     * @param savedInstanceState The previously saved instance state, or null if none exists
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestQueue = Volley.newRequestQueue(this)
-        requestQueue.add(
+        (application as MyMovieDBApplication).requestQueue.add(
             GetRequest<ConfigurationInfo>(buildConfigUrl(), ConfigurationInfo::class.java,
                     {
                         (application as MyMovieDBApplication).apiConfigurationInfo = it
                         startActivity(Intent(this, MovieDetailActivity::class.java))
                     },
                     {
-                        Toast.makeText(this, "TMDB API could not be reached.", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, R.string.splash_api_unreachable, Toast.LENGTH_LONG).show()
                         Handler(mainLooper).postDelayed( { finish() }, 3000)
                     }
             )

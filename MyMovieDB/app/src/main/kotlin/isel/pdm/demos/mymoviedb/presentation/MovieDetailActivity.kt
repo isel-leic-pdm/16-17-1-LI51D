@@ -1,11 +1,12 @@
 package isel.pdm.demos.mymoviedb.presentation
 
 import android.content.Intent
-import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import isel.pdm.demos.mymoviedb.R
 
+/**
+ * Implementation of the Activity used to display the movie details.
+ */
 class MovieDetailActivity : BaseActivity() {
 
     /**
@@ -25,10 +26,10 @@ class MovieDetailActivity : BaseActivity() {
      */
     override val actionBarMenuResId: Int? = R.menu.action_bar_activity_movie_details
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
+    /**
+     * Callback method used to handle action bar events
+     * @param savedInstanceState The menu instance bearing the action bar contents
+     */
     override fun onOptionsItemSelected(item: MenuItem?): Boolean = when (item?.itemId) {
         R.id.action_credits -> {
             startActivity(Intent(this, CreditsActivity::class.java))

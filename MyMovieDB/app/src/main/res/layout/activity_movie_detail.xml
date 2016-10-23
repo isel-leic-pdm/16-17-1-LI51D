@@ -16,6 +16,7 @@
         android:background="?attr/colorPrimary"
         android:title="@string/app_name"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        tools:title="@string/app_name"/>
 
 </RelativeLayout>
