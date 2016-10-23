@@ -2,6 +2,10 @@
     <!-- Application wide -->
     <string name="app_name" translatable="false">My Movie DB</string>
 
+    <!-- Splash screen -->
+    <string name="splash_app_logo_description">Application logo</string>
+    <string name="splash_api_unreachable">TMDB API not available</string>
+
     <!-- Credits screen -->
     <string name="credits_author_label">By</string>
     <string name="credits_author_name" translatable="false">Paulo Pereira</string>
@@ -10,4 +14,7 @@
     <string name="credits_author_linked_in_description">LinkedIn logo</string>
     <string name="credits_data_source_url" translatable="false">https://www.themoviedb.org</string>
     <string name="credits_data_source_description">Powered by TMDB</string>
+
+    <!-- Action items -->
+    <string name="action_about_us">About us</string>
 </resources>

@@ -7,7 +7,6 @@ import com.android.volley.toolbox.JsonRequest
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
 import java.io.IOException
 
 
@@ -20,9 +19,9 @@ import java.io.IOException
  * @property
  */
 class GetRequest<DTO>(url: String,
+                      private val dtoType: Class<DTO>,
                       success: (DTO) -> Unit,
-                      error: (VolleyError) -> Unit,
-                      private val dtoType: Class<DTO>)
+                      error: (VolleyError) -> Unit)
 
         : JsonRequest<DTO>(Method.GET, url, "", success, error) {
 

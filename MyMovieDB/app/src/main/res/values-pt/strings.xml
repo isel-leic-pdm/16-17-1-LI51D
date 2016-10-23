@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Splash screen -->
+    <string name="splash_app_logo_description">Logótipo da aplicação</string>
+    <string name="splash_api_unreachable">TMDB API indisponível</string>
+
     <!-- Credits screen -->
     <string name="credits_author_label">Por</string>
     <string name="credits_author_photo_description">Fotografia do autor</string>
     <string name="credits_author_linked_in_description">Logo LinkedIn</string>
     <string name="credits_data_source_description">Fonte de dados TMDB</string>
+
+    <!-- Action items -->
+    <string name="action_about_us">Autor</string>
 </resources>

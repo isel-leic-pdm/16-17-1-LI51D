@@ -18,15 +18,26 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <ImageView
+    <TextView
+        android:text="@string/credits_author_linked_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/tmdb_logo"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="39dp"
-        android:id="@+id/tmdbLogo"
-        android:contentDescription="@string/credits_data_source_description" />
+        android:id="@+id/linkedInUrl"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:layout_marginStart="15dp"
+        android:layout_alignBottom="@+id/linkedInLogo"
+        android:layout_toEndOf="@+id/linkedInLogo" />
+
+    <TextView
+        android:text="@string/credits_author_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/by"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:layout_marginTop="13dp"
+        android:layout_marginStart="24dp"
+        android:layout_alignTop="@+id/authorPhoto"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -37,17 +48,29 @@
         android:layout_alignBaseline="@+id/by"
         android:layout_alignBottom="@+id/by"
         android:layout_toEndOf="@+id/by"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="11dp" />
 
-    <TextView
-        android:text="@string/credits_author_label"
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/by"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:layout_marginTop="7dp"
-        android:layout_alignTop="@+id/authorPhoto"
-        android:layout_alignStart="@+id/linkedInLogo" />
+        app:srcCompat="@drawable/tmdb_logo"
+        android:id="@+id/tmdbLogo"
+        android:contentDescription="@string/credits_data_source_description"
+        android:layout_marginBottom="23dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:srcCompat="@drawable/me"
+        android:id="@+id/authorPhoto"
+        android:contentDescription="@string/credits_author_photo_description"
+        android:adjustViewBounds="false"
+        android:layout_above="@+id/tmdbLogo"
+        android:layout_toEndOf="@+id/tmdbLogo"
+        android:layout_marginStart="31dp"
+        android:layout_marginBottom="7dp" />
 
     <ImageView
         android:layout_width="wrap_content"
@@ -55,32 +78,8 @@
         app:srcCompat="@drawable/linked_in"
         android:id="@+id/linkedInLogo"
         android:contentDescription="@string/credits_author_linked_in_description"
-        android:layout_marginTop="62dp"
         android:layout_below="@+id/by"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="20dp" />
-
-    <TextView
-        android:text="@string/credits_author_linked_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/linkedInUrl"
-        android:textAppearance="@android:style/TextAppearance.Medium"
-        android:layout_marginTop="20dp"
-        android:layout_below="@+id/authorPhoto"
-        android:layout_alignStart="@+id/linkedInLogo" />
-
-    <ImageView
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        app:srcCompat="@drawable/me"
-        android:id="@+id/authorPhoto"
-        android:contentDescription="@string/credits_author_photo_description"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="19dp"
-        android:layout_below="@+id/toolbar"
-        android:layout_toEndOf="@+id/authorName"
-        android:layout_marginStart="23dp" />
+        android:layout_alignStart="@+id/by"
+        android:layout_marginTop="28dp" />
 
 </RelativeLayout>

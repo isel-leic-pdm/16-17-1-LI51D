@@ -101,9 +101,9 @@ class CheckAPIResponsiveness {
         requestQueue.add(
                 GetRequest<ConfigurationInfo>(
                     buildConfigUrl(),
+                    ConfigurationInfo::class.java,
                     { info -> executeAndPublishResult { assertNotNull(info) } },
-                    { error -> executeAndPublishResult { fail() } },
-                    ConfigurationInfo::class.java
+                    { error -> executeAndPublishResult { fail() } }
                 )
         )
         waitForCompletion()
