@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.pack_shot_view.view.*
 /**
  * UI control that displays the movie pack shot along with its title.
  */
-class PackShotView(val ctx: Context, attrs: AttributeSet?, defStyle: Int) : LinearLayout(ctx, attrs, defStyle) {
+class PackShotView(ctx: Context, attrs: AttributeSet?, defStyle: Int) : LinearLayout(ctx, attrs, defStyle) {
 
     init {
         inflate(context, R.layout.pack_shot_view, this);
