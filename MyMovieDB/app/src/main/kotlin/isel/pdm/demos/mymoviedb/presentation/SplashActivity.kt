@@ -1,19 +1,13 @@
 package isel.pdm.demos.mymoviedb.presentation
 
-import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.widget.Toast
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.Volley
 import isel.pdm.demos.mymoviedb.MyMovieDBApplication
 import isel.pdm.demos.mymoviedb.R
 import isel.pdm.demos.mymoviedb.comms.GetRequest
 import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
+import isel.pdm.demos.mymoviedb.models.MovieDetail
 
 /**
  * Implementation of the Activity used to display the splash screen, which is presented at startup.
@@ -48,13 +42,36 @@ class SplashActivity : BaseActivity() {
             GetRequest<ConfigurationInfo>(buildConfigUrl(), ConfigurationInfo::class.java,
                     {
                         (application as MyMovieDBApplication).apiConfigurationInfo = it
-                        startActivity(Intent(this, MovieDetailActivity::class.java))
+                        fetchMovieInfo()
                     },
-                    {
-                        Toast.makeText(this, R.string.splash_api_unreachable, Toast.LENGTH_LONG).show()
-                        Handler(mainLooper).postDelayed( { finish() }, 3000)
-                    }
+                    { handleFatalError() }
             )
         )
+    }
+
+    /**
+     * Called whenever a fatal error occurs while starting up the application.
+     */
+    private fun handleFatalError() {
+        Toast.makeText(this, R.string.splash_api_unreachable, Toast.LENGTH_LONG).show()
+        Handler(mainLooper).postDelayed( { finish() }, 3000)
+    }
+
+    /**
+     * Helper method used to fetch the movie information.
+     */
+    private fun fetchMovieInfo() {
+
+        val MOVIE_URL: String = "http://api.themoviedb.org/3/movie/76341"
+
+        (application as MyMovieDBApplication).let {
+            it.requestQueue.add(GetRequest<MovieDetail>(
+                "$MOVIE_URL?${ConfigurationInfo.API_KEY_PARAM}",
+                MovieDetail::class.java,
+                { movie -> startActivity(MovieDetailActivity.createIntent(this, movie)) },
+                { handleFatalError() }
+            ))
+        }
+
     }
 }

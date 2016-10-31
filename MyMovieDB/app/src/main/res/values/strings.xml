@@ -2,6 +2,9 @@
     <!-- Application wide -->
     <string name="app_name" translatable="false">My Movie DB</string>
 
+    <!-- Action items -->
+    <string name="action_about_us">About us</string>
+
     <!-- Splash screen -->
     <string name="splash_app_logo_description">Application logo</string>
     <string name="splash_api_unreachable">TMDB API not available</string>
@@ -15,6 +18,10 @@
     <string name="credits_data_source_url" translatable="false">https://www.themoviedb.org</string>
     <string name="credits_data_source_description">Powered by TMDB</string>
 
-    <!-- Action items -->
-    <string name="action_about_us">About us</string>
+    <!-- Movie details screen -->
+    <string name="movie_details_tools_movie_title" translatable="false">Some Movie Title</string>
+    <string name="movie_details_tools_movie_rating" translatable="false">6.8 (10)</string>
+    <string name="movie_details_tools_movie_description" translatable="false">Some movie description</string>
+    <string name="movie_details_rating_image_description">Rating</string>
+
 </resources>

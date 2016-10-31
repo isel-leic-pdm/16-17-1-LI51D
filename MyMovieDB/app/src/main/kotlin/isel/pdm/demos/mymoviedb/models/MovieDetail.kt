@@ -34,7 +34,8 @@ data class MovieDetail(
         val overview: String,
         @JsonProperty("original_title") val originalTitle: String,
         @JsonProperty("belongs_to_collection") val belongsToCollection: MovieCollection?,
-        val genres: List<Genre>) : Parcelable {
+        val genres: List<Genre>,
+        @JsonProperty("vote_average") val rating: Double) : Parcelable {
 
     /**
      * Class whose instances represent movie collections in the enclosing movie detail instance.
@@ -96,6 +97,8 @@ data class MovieDetail(
      */
     data class Genre(val id: Int, val name: String) : Parcelable {
 
+        override fun toString() = name
+
         companion object {
             /** Factory of Genre instances */
             @JvmField @Suppress("unused")
@@ -147,8 +150,9 @@ data class MovieDetail(
             title = source.readString(),
             overview = source.readString(),
             originalTitle = source.readString(),
-            belongsToCollection = source.readTypedObject(MovieCollection.CREATOR),
-            genres = mutableListOf<Genre>().apply { source.readTypedList(this, Genre.CREATOR) }
+            belongsToCollection = source.readParcelable<MovieCollection>(MovieCollection::class.java.classLoader),
+            genres = mutableListOf<Genre>().apply { source.readTypedList(this, Genre.CREATOR) },
+            rating = source.readDouble()
     )
 
     /** Not used (see android documentation for further details) */
@@ -169,8 +173,9 @@ data class MovieDetail(
             writeString(title)
             writeString(overview)
             writeString(originalTitle)
-            writeTypedObject(belongsToCollection, 0)
+            dest.writeParcelable(belongsToCollection, flags)
             writeTypedList(genres)
+            writeDouble(rating)
         }
     }
 }

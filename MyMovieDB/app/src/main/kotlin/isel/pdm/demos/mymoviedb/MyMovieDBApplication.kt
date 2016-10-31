@@ -1,9 +1,12 @@
 package isel.pdm.demos.mymoviedb
 
 import android.app.Application
+import android.graphics.Bitmap
 import com.android.volley.RequestQueue
+import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.Volley
 import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
+import isel.pdm.demos.mymoviedb.services.NullImageCache
 
 /**
  * Class used to customize the application context.
@@ -27,10 +30,16 @@ class MyMovieDBApplication : Application() {
     lateinit var requestQueue: RequestQueue
 
     /**
+     * @property imageLoader The image loader instance, used to load images from the network
+     */
+    lateinit var imageLoader: ImageLoader
+
+    /**
      * Initiates the application instance
      */
     override fun onCreate() {
         super.onCreate()
         requestQueue = Volley.newRequestQueue(this)
+        imageLoader = ImageLoader(requestQueue, NullImageCache())
     }
 }

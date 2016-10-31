@@ -12,4 +12,7 @@
 
     <!-- Action items -->
     <string name="action_about_us">Autor</string>
+
+    <!-- Movie details screen -->
+    <string name="movie_details_rating_image_description">Classificação</string>
 </resources>

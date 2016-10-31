@@ -31,7 +31,7 @@ data class ConfigurationInfo(
      */
     data class Images(
             @JsonProperty("base_url") val baseUrl: String?,
-            @JsonProperty("secure_base") val secureBase: String?,
+            @JsonProperty("secure_base_url") val secureBase: String?,
             @JsonProperty("backdrop_sizes") val backdropSizes: List<String>,
             @JsonProperty("logo_sizes") val logoSizes: List<String>,
             @JsonProperty("poster_sizes") val posterSizes: List<String>,
@@ -90,6 +90,10 @@ data class ConfigurationInfo(
             override fun createFromParcel(source: Parcel) = ConfigurationInfo(source)
             override fun newArray(size: Int): Array<ConfigurationInfo?> = arrayOfNulls(size)
         }
+
+        val API_KEY_NAME = "api_key"
+        val API_KEY_VALUE = "c45808d49ff7af92014ae030f009cd17"
+        val API_KEY_PARAM: String = "$API_KEY_NAME=$API_KEY_VALUE"
     }
 
     /**
@@ -97,7 +101,7 @@ data class ConfigurationInfo(
      * @param source The parcel from where the data is to be loaded from
      */
     constructor(source: Parcel) : this(
-        source.readTypedObject(Images.CREATOR),
+        source.readParcelable<Images>(Images::class.java.classLoader),
         source.createStringArrayList()
     )
 
@@ -110,7 +114,7 @@ data class ConfigurationInfo(
      * @param flags Not used (see android documentation for further details)
      */
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeTypedObject(images, flags)
+        dest.writeParcelable(images, flags)
         dest.writeStringList(changeKeys)
     }
 }
