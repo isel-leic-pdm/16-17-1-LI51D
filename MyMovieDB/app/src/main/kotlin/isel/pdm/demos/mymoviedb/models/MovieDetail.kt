@@ -23,6 +23,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
  * @property originalTitle The movie's original title
  * @property belongsToCollection The movie collection to which the movie belongs to (if any)
  * @property genres The genres to which the movie is related to
+ * @property rating The movie's average rating
  */
 data class MovieDetail(
         val id: Int,
