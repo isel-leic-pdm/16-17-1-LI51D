@@ -1,13 +1,17 @@
 package isel.pdm.demos.mymoviedb.presentation
 
+import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.widget.Toast
+import com.android.volley.toolbox.RequestFuture
 import isel.pdm.demos.mymoviedb.MyMovieDBApplication
 import isel.pdm.demos.mymoviedb.R
 import isel.pdm.demos.mymoviedb.comms.GetRequest
 import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
 import isel.pdm.demos.mymoviedb.models.MovieDetail
+import isel.pdm.demos.mymoviedb.models.MovieListPage
 
 /**
  * Implementation of the Activity used to display the splash screen, which is presented at startup.
@@ -42,7 +46,7 @@ class SplashActivity : BaseActivity() {
             GetRequest<ConfigurationInfo>(buildConfigUrl(), ConfigurationInfo::class.java,
                     {
                         (application as MyMovieDBApplication).apiConfigurationInfo = it
-                        fetchMovieInfo()
+                        fetchUpcomingMoviesWithAsyncTask()
                     },
                     { handleFatalError() }
             )
@@ -55,6 +59,52 @@ class SplashActivity : BaseActivity() {
     private fun handleFatalError() {
         Toast.makeText(this, R.string.splash_api_unreachable, Toast.LENGTH_LONG).show()
         Handler(mainLooper).postDelayed( { finish() }, 3000)
+    }
+
+    /**
+     * Helper method used to fetch the upcoming movies list.
+     */
+    private fun fetchUpcomingMoviesWithAsyncTask() {
+        val UPCOMING_MOVIES_URL: String = "http://api.themoviedb.org/3/movie/upcoming"
+
+        val future: RequestFuture<MovieListPage> = RequestFuture.newFuture()
+        val queue = (application as MyMovieDBApplication).requestQueue
+
+        (object: AsyncTask<String, Unit, MovieListPage>() {
+            override fun doInBackground(vararg p0: String?): MovieListPage {
+                Log.v("Paulo", "doInBackground in ${Thread.currentThread().id}")
+                queue.add(GetRequest<MovieListPage>(
+                        "$UPCOMING_MOVIES_URL?${ConfigurationInfo.API_KEY_PARAM}",
+                        MovieListPage::class.java,
+                        { response -> future.onResponse(response) },
+                        { error -> future.onErrorResponse(error) }
+                ))
+
+                return future.get()
+            }
+
+
+            override fun onPostExecute(result: MovieListPage?) {
+                Log.v("Paulo", "onPostExecute in ${Thread.currentThread().id}")
+            }
+        }).execute()
+    }
+
+    /**
+     * Helper method used to fetch the upcoming movies list.
+     */
+    private fun fetchUpcomingMovies() {
+
+        val UPCOMING_MOVIES_URL: String = "http://api.themoviedb.org/3/movie/upcoming"
+
+        (application as MyMovieDBApplication).let {
+            it.requestQueue.add(GetRequest<MovieListPage>(
+                    "$UPCOMING_MOVIES_URL?${ConfigurationInfo.API_KEY_PARAM}",
+                    MovieListPage::class.java,
+                    { movies -> Log.v("Paulo", "Done!") },
+                    { handleFatalError() }
+            ))
+        }
     }
 
     /**
@@ -72,6 +122,5 @@ class SplashActivity : BaseActivity() {
                 { handleFatalError() }
             ))
         }
-
     }
 }

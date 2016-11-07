@@ -1,7 +1,6 @@
 package isel.pdm.demos.mymoviedb
 
 import android.app.Application
-import android.graphics.Bitmap
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.Volley
@@ -22,17 +21,17 @@ class MyMovieDBApplication : Application() {
      * @property apiConfigurationInfo The configuration information provided by the remote API,
      * or null if we could not reach it
      */
-    var apiConfigurationInfo: ConfigurationInfo? = null
+    @Volatile var apiConfigurationInfo: ConfigurationInfo? = null
 
     /**
      * @property requestQueue The request queue to be used for request dispatching
      */
-    lateinit var requestQueue: RequestQueue
+    @Volatile lateinit var requestQueue: RequestQueue
 
     /**
      * @property imageLoader The image loader instance, used to load images from the network
      */
-    lateinit var imageLoader: ImageLoader
+    @Volatile lateinit var imageLoader: ImageLoader
 
     /**
      * Initiates the application instance

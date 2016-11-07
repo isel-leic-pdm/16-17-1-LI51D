@@ -3,7 +3,6 @@ package isel.pdm.demos.mymoviedb.models
 import android.os.Parcel
 import android.os.Parcelable
 import com.fasterxml.jackson.annotation.JsonProperty
-import java.util.*
 
 /**
  * Class whose instances represent a page of a list of movies obtained from the remote API. Notice
