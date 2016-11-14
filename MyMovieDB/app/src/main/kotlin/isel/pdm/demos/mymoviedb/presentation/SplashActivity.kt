@@ -1,5 +1,6 @@
 package isel.pdm.demos.mymoviedb.presentation
 
+import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
 import android.os.Handler
@@ -12,6 +13,7 @@ import isel.pdm.demos.mymoviedb.comms.GetRequest
 import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
 import isel.pdm.demos.mymoviedb.models.MovieDetail
 import isel.pdm.demos.mymoviedb.models.MovieListPage
+import isel.pdm.demos.mymoviedb.services.UpcomingMoviesUpdater
 
 /**
  * Implementation of the Activity used to display the splash screen, which is presented at startup.
@@ -46,7 +48,8 @@ class SplashActivity : BaseActivity() {
             GetRequest<ConfigurationInfo>(buildConfigUrl(), ConfigurationInfo::class.java,
                     {
                         (application as MyMovieDBApplication).apiConfigurationInfo = it
-                        fetchUpcomingMoviesWithAsyncTask()
+                        fetchMovieInfo()
+                        //fetchUpcomingMoviesWithAsyncTask()
                     },
                     { handleFatalError() }
             )

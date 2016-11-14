@@ -5,30 +5,30 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".MyMovieDBApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launch"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".MyMovieDBApplication">
-
+        android:theme="@style/AppTheme">
         <activity android:name=".presentation.CreditsActivity" />
-
         <activity android:name=".presentation.MovieDetailActivity" />
-
         <activity
             android:name=".presentation.SplashActivity"
             android:noHistory="true"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <service android:name=".services.UpcomingMovieUpdater" />
-
+        <service android:name=".services.UpcomingMovieUpdaterOld" />
+        <service
+            android:name=".services.UpcomingMoviesUpdater"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

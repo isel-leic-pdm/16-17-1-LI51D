@@ -14,12 +14,12 @@ import isel.pdm.demos.mymoviedb.models.MovieListPage
 /**
  * TODO: Document
  */
-class UpcomingMovieUpdater() : IntentService("UpcomingMovieUpdater") {
+class UpcomingMovieUpdaterOld() : IntentService("UpcomingMovieUpdaterOld") {
 
     /**
      * Helper method used to synchronously fetch the upcoming movies list.
      */
-    private fun fetchUpcomingMoviesSync(): MovieListPage {
+    private fun fetchUpcomingMovies(): MovieListPage {
         val UPCOMING_MOVIES_URL: String = "http://api.themoviedb.org/3/movie/upcoming"
 
         val future: RequestFuture<MovieListPage> = RequestFuture.newFuture()
@@ -33,25 +33,11 @@ class UpcomingMovieUpdater() : IntentService("UpcomingMovieUpdater") {
         return future.get()
     }
 
-    /**
-     * Helper method used to fetch the upcoming movies list.
-     */
-    private fun brokenFetchUpcomingMoviesAsync() {
-        val UPCOMING_MOVIES_URL: String = "http://api.themoviedb.org/3/movie/upcoming"
-
-        (application as MyMovieDBApplication).requestQueue.add(GetRequest<MovieListPage>(
-                "$UPCOMING_MOVIES_URL?${ConfigurationInfo.API_KEY_PARAM}",
-                MovieListPage::class.java,
-                { /* Use list data */  },
-                {  /* Handle error */ }
-        ))
-    }
-
     @WorkerThread
     override fun onHandleIntent(intent: Intent?) {
 
         try {
-            val list = fetchUpcomingMoviesSync()
+            val list = fetchUpcomingMovies()
             // TODO: Use list data
         }
         catch (error: Exception) {

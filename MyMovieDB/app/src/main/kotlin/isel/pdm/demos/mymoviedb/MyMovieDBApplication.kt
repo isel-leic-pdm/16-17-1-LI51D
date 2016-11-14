@@ -1,11 +1,16 @@
 package isel.pdm.demos.mymoviedb
 
+import android.app.AlarmManager
 import android.app.Application
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.Volley
 import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
 import isel.pdm.demos.mymoviedb.services.NullImageCache
+import isel.pdm.demos.mymoviedb.services.UpcomingMoviesUpdater
 
 /**
  * Class used to customize the application context.
@@ -40,5 +45,19 @@ class MyMovieDBApplication : Application() {
         super.onCreate()
         requestQueue = Volley.newRequestQueue(this)
         imageLoader = ImageLoader(requestQueue, NullImageCache())
+
+        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+
+        alarmManager.setInexactRepeating(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                0,
+                AlarmManager.INTERVAL_DAY,
+                PendingIntent.getService(
+                        this,
+                        1,
+                        Intent(this, UpcomingMoviesUpdater::class.java),
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                )
+        )
     }
 }
