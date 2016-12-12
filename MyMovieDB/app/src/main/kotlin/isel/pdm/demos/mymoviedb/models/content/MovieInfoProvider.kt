@@ -6,9 +6,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.net.Uri
 import android.support.annotation.MainThread
-import android.database.sqlite.SQLiteQueryBuilder
-
-
 
 /**
  * Class that implements the authority for movie information.
@@ -67,15 +64,14 @@ class MovieInfoProvider : ContentProvider() {
             SQLiteOpenHelper(this@MovieInfoProvider.context, dbName, null, version) {
 
         private fun createTable(db: SQLiteDatabase?, tableName: String) {
-            val CREATE_CMD = "CREATE TABLE $tableName " +
-                    "( $COLUMN_ID INTEGER PRIMARY KEY" +
-                    ", $COLUMN_ADULT BOOLEAN"
-                    ", $COLUMN_BACKDROP TEXT"
-                    ", $COLUMN_POSTER TEXT"
-                    ", $COLUMN_TITLE TEXT NOT NULL" +
-                    ", $COLUMN_OVERVIEW TEXT NOT NULL" +
-                    ", $COLUMN_ORIGINAL_TITLE TEXT NOT NULL" +
-                    ", )"
+            val CREATE_CMD = "CREATE TABLE $tableName ( " +
+                    "$COLUMN_ID INTEGER PRIMARY KEY , " +
+                    "$COLUMN_ADULT BOOLEAN , " +
+                    "$COLUMN_BACKDROP TEXT , " +
+                    "$COLUMN_POSTER TEXT , " +
+                    "$COLUMN_TITLE TEXT NOT NULL , " +
+                    "$COLUMN_OVERVIEW TEXT NOT NULL , " +
+                    "$COLUMN_ORIGINAL_TITLE TEXT NOT NULL )"
             db?.execSQL(CREATE_CMD)
         }
 
@@ -148,16 +144,27 @@ class MovieInfoProvider : ContentProvider() {
         else -> null
     } ?: throw IllegalArgumentException("Uri $uri not supported")
 
-
-    /** @see ContentProvider.delete */
-    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
+    /**
+     * Helper function used to obtain the table name and selection arguments based on the
+     * given [uri]
+     * @param [uri] The received URI, which may refer to a table or to an individual entry
+     * @return A [Triple] instance bearing the table name (the triple's first), the selection
+     * string (the triple's second) and the selection string parameters (the triple's third).
+     * @throws IllegalArgumentException if the received [uri] does not refer to a valid data set
+     */
+    private fun resolveTableAndSelectionInfoFromUri(uri: Uri, selection: String?, selectionArgs: Array<String>?)
+            : Triple<String, String?, Array<String>?> {
         val itemSelection = "$COLUMN_ID = ${uri.pathSegments.last()}"
-        val params = when (uriMatcher.match(uri)) {
+        return when (uriMatcher.match(uri)) {
             UPCOMING_ITEM_CODE -> Triple(UPCOMING_TABLE_NAME, itemSelection, null)
             EXHIBITION_ITEM_CODE -> Triple(EXHIBITION_TABLE_NAME, itemSelection, null)
             else -> resolveTableInfoFromUri(uri).let { Triple(it.first, selection, selectionArgs) }
         }
+    }
 
+    /** @see ContentProvider.delete */
+    override fun delete(uri: Uri, selection: String?, selectionArgs: Array<String>?): Int {
+        val params = resolveTableAndSelectionInfoFromUri(uri, selection, selectionArgs)
         val db = dbHelper.writableDatabase
         try {
             val deletedCount = db.delete(params.first, params.second, params.third)
@@ -178,7 +185,7 @@ class MovieInfoProvider : ContentProvider() {
             val id = db.insert(tableInfo.first, null, values)
             if (id < 0) null else {
                 context.contentResolver.notifyChange(uri, null)
-                Uri.parse("${tableInfo.second}/$id")
+                Uri.parse("content://$AUTHORITY/${tableInfo.second}/$id")
             }
         }
         finally {
@@ -190,8 +197,14 @@ class MovieInfoProvider : ContentProvider() {
     override fun query(uri: Uri, projection: Array<String>?, selection: String?,
                        selectionArgs: Array<String>?, sortOrder: String?): Cursor? {
 
-        // TODO: Implement this to handle query requests from clients.
-        throw UnsupportedOperationException("Not yet implemented")
+        val params = resolveTableAndSelectionInfoFromUri(uri, selection, selectionArgs)
+        val db = dbHelper.readableDatabase
+        return try {
+            db.query(params.first, projection, params.second, params.third, null, null, sortOrder)
+        }
+        finally {
+            db.close()
+        }
     }
 
     /** @see ContentProvider.update */

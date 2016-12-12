@@ -17,8 +17,12 @@ fun MovieItem.toContentValues(): ContentValues {
     val result = ContentValues()
     with (MovieInfoProvider) {
         result.put(COLUMN_ID, id)
+        result.put(COLUMN_ADULT, if (adult) 1 else 0)
+        result.put(COLUMN_BACKDROP, backdropPath)
+        result.put(COLUMN_POSTER, posterPath)
         result.put(COLUMN_TITLE, title)
         result.put(COLUMN_OVERVIEW, overview)
+        result.put(COLUMN_ORIGINAL_TITLE, originalTitle)
     }
     return result
 }
@@ -40,14 +44,14 @@ fun MovieListPage.toContentValues() : Array<ContentValues> =
 private fun toMovieItem(cursor: Cursor): MovieItem {
     with (MovieInfoProvider.Companion) {
         return MovieItem(
-                cursor.getInt(COLUMN_ID_IDX),
-                cursor.getInt(COLUMN_ADULT_IDX) != 0,
-                cursor.getString(COLUMN_BACKDROP_IDX),
-                cursor.getString(COLUMN_POSTER_IDX),
-                cursor.getString(COLUMN_TITLE_IDX),
-                cursor.getString(COLUMN_OVERVIEW_IDX),
-                cursor.getString(COLUMN_ORIGINAL_TITLE_IDX),
-                0.0
+                id = cursor.getInt(COLUMN_ID_IDX),
+                adult = cursor.getInt(COLUMN_ADULT_IDX) != 0,
+                backdropPath = cursor.getString(COLUMN_BACKDROP_IDX),
+                posterPath = cursor.getString(COLUMN_POSTER_IDX),
+                title = cursor.getString(COLUMN_TITLE_IDX),
+                overview = cursor.getString(COLUMN_OVERVIEW_IDX),
+                originalTitle = cursor.getString(COLUMN_ORIGINAL_TITLE_IDX),
+                rating = 0.0
         )
     }
 }
@@ -68,5 +72,7 @@ fun Cursor.toMovieItemList(): List<MovieItem> {
         }
     }
 
-    return mutableListOf<MovieItem>().let { it.addAll(Iterable { cursorIterator }); it }
+    return mutableListOf<MovieItem>().let {
+        it.addAll(Iterable { cursorIterator }); it
+    }
 }

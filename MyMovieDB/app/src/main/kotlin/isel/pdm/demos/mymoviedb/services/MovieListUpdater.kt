@@ -28,9 +28,10 @@ class MovieListUpdater : Service() {
         private val LIST_IDS = listOf(UPCOMING_LIST_ID_EXTRA_VALUE, EXHIBITION_LIST_ID_EXTRA_VALUE)
     }
 
-    /** {@inheritDoc} */
+    /** @see Service.onBind */
     override fun onBind(intent: Intent): IBinder? = null
 
+    /** @see Service.onStartCommand */
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
         val movieListId = intent?.let {
@@ -70,9 +71,9 @@ class MovieListUpdater : Service() {
             else MovieInfoProvider.EXHIBITION_CONTENT_URI
 
         contentResolver.delete(tableUri, null, null)
-        contentResolver.bulkInsert(tableUri, movies.toContentValues())
+        val count = contentResolver.bulkInsert(tableUri, movies.toContentValues())
 
-        Log.v("DEMO", "Successfully updated $movieListId movie list")
+        Log.v("DEMO", "Successfully updated $movieListId movie list with $count entries")
     }
 
     /**
