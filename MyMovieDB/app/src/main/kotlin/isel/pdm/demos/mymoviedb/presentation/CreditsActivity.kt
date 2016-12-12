@@ -1,5 +1,7 @@
 package isel.pdm.demos.mymoviedb.presentation
 
+import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -42,6 +44,9 @@ class CreditsActivity : BaseActivity() {
      */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val mgr = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        mgr.cancel(1)
 
         tmdbLogo.setOnClickListener {
             val url = Uri.parse(resources.getString(R.string.credits_data_source_url))

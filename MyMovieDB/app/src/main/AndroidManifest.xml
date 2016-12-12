@@ -19,16 +19,22 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <service android:name=".services.UpcomingMovieUpdaterOld" />
         <service
-            android:name=".services.UpcomingMoviesUpdater"
+            android:name=".services.MovieListUpdater"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <provider
+            android:name=".models.content.MovieInfoProvider"
+            android:authorities="isel.pdm.demos.mymoviedb"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false" />
+
     </application>
 
 </manifest>

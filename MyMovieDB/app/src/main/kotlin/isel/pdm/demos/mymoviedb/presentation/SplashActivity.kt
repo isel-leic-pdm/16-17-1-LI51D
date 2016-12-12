@@ -1,5 +1,9 @@
 package isel.pdm.demos.mymoviedb.presentation
 
+import android.app.Notification
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Bundle
@@ -13,7 +17,7 @@ import isel.pdm.demos.mymoviedb.comms.GetRequest
 import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
 import isel.pdm.demos.mymoviedb.models.MovieDetail
 import isel.pdm.demos.mymoviedb.models.MovieListPage
-import isel.pdm.demos.mymoviedb.services.UpcomingMoviesUpdater
+import isel.pdm.demos.mymoviedb.services.MovieListUpdater
 
 /**
  * Implementation of the Activity used to display the splash screen, which is presented at startup.

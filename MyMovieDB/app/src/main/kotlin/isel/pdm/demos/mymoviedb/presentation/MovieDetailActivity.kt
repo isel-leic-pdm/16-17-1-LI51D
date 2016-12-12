@@ -22,7 +22,7 @@ class MovieDetailActivity : BaseActivity() {
         /**
          * The name of the extra that will contain the movie information to be displayed
          */
-        val EXTRA_MOVIE = "movie_detail_extra"
+        const val EXTRA_MOVIE = "movie_detail_extra"
 
         /**
          * Creates an intent that can be used to start the current Activity.

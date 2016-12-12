@@ -10,7 +10,7 @@ import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.Volley
 import isel.pdm.demos.mymoviedb.models.ConfigurationInfo
 import isel.pdm.demos.mymoviedb.services.NullImageCache
-import isel.pdm.demos.mymoviedb.services.UpcomingMoviesUpdater
+import isel.pdm.demos.mymoviedb.services.MovieListUpdater
 
 /**
  * Class used to customize the application context.
@@ -39,6 +39,9 @@ class MyMovieDBApplication : Application() {
     @Volatile lateinit var imageLoader: ImageLoader
 
     /**
+     * Helper method used to schedule the update of the movie list with the given identifier
+     */
+    /**
      * Initiates the application instance
      */
     override fun onCreate() {
@@ -46,18 +49,20 @@ class MyMovieDBApplication : Application() {
         requestQueue = Volley.newRequestQueue(this)
         imageLoader = ImageLoader(requestQueue, NullImageCache())
 
-        val alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        fun scheduleUpdate(listId: String) {
+            val action = Intent(this, MovieListUpdater::class.java)
+                    .putExtra(MovieListUpdater.MOVIE_LIST_ID_EXTRA_KEY, listId)
+            (getSystemService(ALARM_SERVICE) as AlarmManager).setInexactRepeating(
+                    AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    0,
+                    AlarmManager.INTERVAL_DAY,
+                    PendingIntent.getService(this, 1, action, PendingIntent.FLAG_UPDATE_CURRENT)
+            )
+        }
 
-        alarmManager.setInexactRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                0,
-                AlarmManager.INTERVAL_DAY,
-                PendingIntent.getService(
-                        this,
-                        1,
-                        Intent(this, UpcomingMoviesUpdater::class.java),
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                )
-        )
+        // Implementation note: This solution does not persist Alarm schedules across reboots
+
+        scheduleUpdate(MovieListUpdater.UPCOMING_LIST_ID_EXTRA_VALUE)
+        scheduleUpdate(MovieListUpdater.EXHIBITION_LIST_ID_EXTRA_VALUE)
     }
 }
