@@ -15,32 +15,29 @@ import isel.pdm.demos.mymoviedb.services.MovieListUpdater
 /**
  * Class used to customize the application context.
  *
- * <p>This class may be instantiated multiple times, specifically, there will be as many instances
+ * This class may be instantiated multiple times, specifically, there will be as many instances
  * as application processes (one per process). For this reason it is to be used judiciously:
- * contained data <em>should be mostly read only</em> or we risk having bugs caused by data
- * divergence.</p>
+ * contained data _should be mostly read only_ or we risk having bugs caused by data
+ * divergence.
  */
 class MyMovieDBApplication : Application() {
 
     /**
-     * @property apiConfigurationInfo The configuration information provided by the remote API,
+     * @property [apiConfigurationInfo] The configuration information provided by the remote API,
      * or null if we could not reach it
      */
     @Volatile var apiConfigurationInfo: ConfigurationInfo? = null
 
     /**
-     * @property requestQueue The request queue to be used for request dispatching
+     * @property [requestQueue] The request queue to be used for request dispatching
      */
     @Volatile lateinit var requestQueue: RequestQueue
 
     /**
-     * @property imageLoader The image loader instance, used to load images from the network
+     * @property [imageLoader] The image loader instance, used to load images from the network
      */
     @Volatile lateinit var imageLoader: ImageLoader
 
-    /**
-     * Helper method used to schedule the update of the movie list with the given identifier
-     */
     /**
      * Initiates the application instance
      */
