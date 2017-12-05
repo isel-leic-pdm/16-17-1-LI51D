@@ -37,7 +37,7 @@ fun MovieListPage.toContentValues() : Array<ContentValues> =
         results.map(MovieItem::toContentValues).toTypedArray()
 
 /**
- * Function that builds a [MovieItem] instnce from the given [Cursor]
+ * Function that builds a [MovieItem] instance from the given [Cursor]
  * @param [cursor] The cursor pointing to the movie item data
  * @return The newly created [MovieItem]
  */

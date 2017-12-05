@@ -174,7 +174,7 @@ data class MovieDetail(
             writeString(title)
             writeString(overview)
             writeString(originalTitle)
-            dest.writeParcelable(belongsToCollection, flags)
+            writeParcelable(belongsToCollection, flags)
             writeTypedList(genres)
             writeDouble(rating)
         }
